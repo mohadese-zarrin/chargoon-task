@@ -1,5 +1,5 @@
 import { Input, Tree } from 'antd';
-import type { DataNode } from 'antd/es/tree';
+import type { DataNode, TreeProps } from 'antd/es/tree';
 import React, { useContext, useMemo, useRef, useState } from 'react';
 import AppContext from '../../appContext';
 import { NodeType } from '../../types';
@@ -10,15 +10,18 @@ const { Search } = Input;
 
 interface Props {
   handleContextMenuClick: (key: string) => void;
+  selectItem: (node: any) => void
 }
 let dataList: NodeType[]
 
-const TreeExtended: React.FC<Props> = ({ handleContextMenuClick }) => {
+const TreeExtended: React.FC<Props> = ({ handleContextMenuClick, selectItem }) => {
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
   const [searchValue, setSearchValue] = useState('')
   const [resultItems, setResultItems] = useState([])
   const searchedKeyword = useRef();
+
+  // FIXME set false
   const [searchResultVisible, setSearchResultVisible] = useState(true);
   const { treeData } = useContext(AppContext);
 
@@ -56,6 +59,15 @@ const TreeExtended: React.FC<Props> = ({ handleContextMenuClick }) => {
     return <Node node={node} handleContextMenuClick={handleContextMenuClick} />
   }
 
+  const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
+    // let selectedNodeData={
+    //   accesses:info.node.accesses,
+    //   basicInformation:''
+    // }
+    console.log('selected', selectedKeys, info.node);
+    selectItem(info.node)
+  };
+
   return (
     <div className='tree-wrap'>
       <Search style={{ marginBottom: 8 }} placeholder="جستجو" onChange={handleSearchInputChange} onPressEnter={handlePressEnter} />
@@ -65,6 +77,7 @@ const TreeExtended: React.FC<Props> = ({ handleContextMenuClick }) => {
         autoExpandParent={autoExpandParent}
         treeData={treeData}
         titleRender={titleRenderer}
+        onSelect={onSelect}
       />
       {searchResultVisible && <SearchResult items={resultItems} />}
     </div>

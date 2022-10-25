@@ -1,13 +1,22 @@
 import { Form, Input } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import UserAutoComplete from './user-autocomplete';
 
 interface Props {
 	initialValue?: any;
 }
 
-function BasicInformation({ }: Props) {
+function BasicInformation({ initialValue }: Props) {
 	const [form] = Form.useForm();
+	useEffect(() => {
+		if (initialValue) {
+			form.setFieldsValue({
+				title: initialValue.title,
+				code: initialValue.key
+			})
+		}
+	}, [initialValue])
+
 
 	return (
 		<Form form={form}>
