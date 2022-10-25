@@ -28,10 +28,26 @@ function App() {
   }
 
   const handleUpdateTree = (nodes: NodeType[]) => {
-
+    setTreeData(nodes)
   }
 
   const handleUpdateNode = (key: string, data: any) => {
+    console.log(key, data, 'update node');
+
+    const findNode = (listData: NodeType[]) => {
+      for (let i = 0; i < listData.length; i++) {
+        if (listData[i].key === key) {
+          listData[i] = data
+          return listData
+        } else if (listData[i].children) {
+          findNode(listData[i].children);
+        }
+        return listData
+      }
+    }
+    let newTree = findNode(treeData)
+    console.log(newTree);
+    setTreeData([...newTree])
 
   }
 
@@ -44,7 +60,7 @@ function App() {
     >
       <div className="App">
         <Sidebar>
-          <ExtendedTree handleContextMenuClick={handleContextMenuClick} />
+          <ExtendedTree selectItem={setSelectedItem} handleContextMenuClick={handleContextMenuClick} />
         </Sidebar>
         {showEdit && <Form item={selectedItem} updateNode={handleUpdateNode} />}
       </div>
