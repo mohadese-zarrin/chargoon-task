@@ -1,8 +1,12 @@
 import React from 'react';
-interface Props { }
-function OrgchartIcon({ }: Props) {
+interface Props {
+	width?: number,
+	height?: number
+}
+function OrgchartIcon({ width = 25, height = 25 }: Props) {
 	return (
-		<svg x="0px" y="0px"
+		<svg width={width} height={height}
+			x="0px" y="0px"
 			viewBox="0 0 330 330" >
 			<path d="M280,232.302V165c0-8.284-6.716-15-15-15h-85V97.698c20.264-6.387,35-25.352,35-47.698c0-27.57-22.43-50-50-50
  c-27.57,0-50,22.43-50,50c0,22.346,14.736,41.312,35,47.698V150H65c-8.284,0-15,6.716-15,15v67.302
