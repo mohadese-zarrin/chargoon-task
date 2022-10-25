@@ -2,9 +2,9 @@ import { createTreeMockData } from "./Components/Tree/mockData"
 
 export async function getAccessList() {
 	return [
-		{ label: 'ارسال نامه', id: '1' },
-		{ label: 'ویرایش نامه', id: '2' },
-		{ label: 'مشاهده نامه', id: '3' },
+		{ label: 'ارسال نامه', id: '1', value: 1 },
+		{ label: 'ویرایش نامه', id: '2', value: 2 },
+		{ label: 'مشاهده نامه', id: '3', value: 3 },
 	]
 }
 
