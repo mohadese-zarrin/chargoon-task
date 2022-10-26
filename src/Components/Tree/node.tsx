@@ -19,9 +19,9 @@ function Node({ node, handleContextMenuClick }: Props) {
 
       <ContextMenuEx id={node.key}>
         <ContextMenuItemEx disable={false} handleClick={() => handleContextMenuClick('ADD_BRANCH', node)} title={'افزودن زیرشاخه'} />
-        <ContextMenuItemEx disable={node.children} handleClick={() => handleContextMenuClick('CUT', node)} title={'برش'} />
+        <ContextMenuItemEx disable={node.children.length} handleClick={() => handleContextMenuClick('CUT', node)} title={'برش'} />
         <ContextMenuItemEx disable={false} handleClick={() => handleContextMenuClick('PASTE', node)} title={'چسباندن'} />
-        <ContextMenuItemEx disable={node.children} handleClick={() => handleContextMenuClick('DELETE', node)} title={'حذف'} />
+        <ContextMenuItemEx disable={node.children.length} handleClick={() => handleContextMenuClick('DELETE', node)} title={'حذف'} />
       </ContextMenuEx>
 
     </div>
