@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NodeType } from '../../types';
 import { ContextMenuTriggerEx, ContextMenuItemEx, ContextMenuEx } from '../ContextMenu';
+import AppContext from '../../appContext';
+
 
 interface Props {
   node: NodeType;
@@ -8,6 +10,7 @@ interface Props {
 }
 
 function Node({ node, handleContextMenuClick }: Props) {
+  const { cutedNodeKey } = useContext(AppContext);
   return (
     <div>
       {/* NOTICE: id must be unique between EVERY <ContextMenuTrigger> and <ContextMenu> pair */}
@@ -20,7 +23,7 @@ function Node({ node, handleContextMenuClick }: Props) {
       <ContextMenuEx id={node.key}>
         <ContextMenuItemEx disable={false} handleClick={() => handleContextMenuClick('ADD_BRANCH', node)} title={'افزودن زیرشاخه'} />
         <ContextMenuItemEx disable={node.children.length} handleClick={() => handleContextMenuClick('CUT', node)} title={'برش'} />
-        <ContextMenuItemEx disable={false} handleClick={() => handleContextMenuClick('PASTE', node)} title={'چسباندن'} />
+        <ContextMenuItemEx disable={!(cutedNodeKey) || cutedNodeKey === node.key} handleClick={() => handleContextMenuClick('PASTE', node)} title={'چسباندن'} />
         <ContextMenuItemEx disable={node.children.length} handleClick={() => handleContextMenuClick('DELETE', node)} title={'حذف'} />
       </ContextMenuEx>
 

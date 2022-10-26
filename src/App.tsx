@@ -87,6 +87,7 @@ function App() {
     }
     newTree = pasteNode(newTree)
     setTreeData([...newTree])
+    cutedNode.current = null
   }
 
   const handleUpdateTree = (nodes: NodeType[]) => {
@@ -133,7 +134,8 @@ function App() {
     <AppContext.Provider
       value={{
         treeData,
-        updateTreeData: handleUpdateTree
+        updateTreeData: handleUpdateTree,
+        cutedNodeKey: cutedNode.current?.key
       }}
     >
       <div className="App">
