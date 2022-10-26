@@ -1,4 +1,7 @@
-import { useEffect, useContext, useState, useMemo } from "react";
+import { debug } from "console";
+import { debugPort } from "process";
+import { useEffect, useContext, useState, useMemo, useRef } from "react";
+import { debuglog } from "util";
 import AppContext from "./appContext";
 import Form from "./Components/Form";
 import Sidebar from "./Components/Sidebar";
@@ -10,7 +13,7 @@ function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [showEdit, setShowEdit] = useState(true);
   const [treeData, setTreeData] = useState([]);
-
+  const cutedNode = useRef<NodeType>()
   const fetchTreeData = async () => {
     const result = await getNodes();
     setTreeData(result);
@@ -26,15 +29,49 @@ function App() {
         console.log(node, 'ADD_BRANCH')
         break
       case 'CUT':
-        console.log(node, 'CUT')
+        cutedNode.current = node
         break
       case 'PASTE':
         console.log(node, 'cut');
+        handlePasteNode(node)
         break
       case 'DELETE':
         console.log(node, 'DELETE')
         break
     }
+  }
+  const handlePasteNode = (node: NodeType) => {
+    let newTree
+    const cutNode = (listData: NodeType[]) => {
+      for (let i = 0; i < listData.length; i++) {
+        if (listData[i].children.find(e => e.key === cutedNode.current.key)) {
+          listData[i].children = listData[i].children.filter(e => e.key !== cutedNode.current.key)
+          return listData
+        } else if (listData[i].children) {
+          cutNode(listData[i].children);
+        }
+        return listData
+      }
+    }
+    newTree = cutNode(treeData)
+    const pasteNode = (listData: NodeType[]) => {
+      let updatedNode = {
+        ...cutedNode.current,
+        hierarchy: [...node.hierarchy, cutedNode.current.key],
+        parentKey: node.key
+      }
+      for (let i = 0; i < listData.length; i++) {
+        if (listData[i].key === node.key) {
+          listData[i].children = [...listData[i].children, updatedNode]
+          return listData
+        } else if (listData[i].children) {
+          pasteNode(listData[i].children);
+        }
+        return listData
+      }
+    }
+    newTree = pasteNode(newTree)
+    setTreeData([...newTree])
   }
 
   const handleUpdateTree = (nodes: NodeType[]) => {
