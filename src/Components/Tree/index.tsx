@@ -21,8 +21,7 @@ const TreeExtended: React.FC<Props> = ({ handleContextMenuClick, selectItem }) =
   const [resultItems, setResultItems] = useState([])
   const searchedKeyword = useRef();
 
-  // FIXME set false
-  const [searchResultVisible, setSearchResultVisible] = useState(true);
+  const [searchResultVisible, setSearchResultVisible] = useState(false);
   const { treeData } = useContext(AppContext);
 
   const onExpand = (newExpandedKeys: any[]) => {
@@ -60,11 +59,6 @@ const TreeExtended: React.FC<Props> = ({ handleContextMenuClick, selectItem }) =
   }
 
   const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
-    // let selectedNodeData={
-    //   accesses:info.node.accesses,
-    //   basicInformation:''
-    // }
-    console.log('selected', selectedKeys, info.node);
     selectItem(info.node)
   };
 

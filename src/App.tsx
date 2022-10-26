@@ -26,7 +26,6 @@ const handleGenerateNode = (parent: NodeType, data: any): NodeType => {
 function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [newNode, setNewNode] = useState(false)
-  const [showEdit, setShowEdit] = useState(true);
   const [treeData, setTreeData] = useState([]);
   const cutedNode = useRef<NodeType>()
   const fetchTreeData = async () => {
@@ -56,6 +55,10 @@ function App() {
         break
     }
   }
+  const handleUpdateTree = (nodes: NodeType[]) => {
+    setTreeData(nodes)
+  }
+
   const handlePasteNode = (node: NodeType) => {
     let newTree
     const cutNode = (listData: NodeType[]) => {
@@ -91,10 +94,6 @@ function App() {
     cutedNode.current = null
   }
 
-  const handleUpdateTree = (nodes: NodeType[]) => {
-    setTreeData(nodes)
-  }
-
   const handleDeleteNode = (node: NodeType) => {
     const deleteNode = (listData: NodeType[]) => {
       for (let i = 0; i < listData.length; i++) {
@@ -109,6 +108,7 @@ function App() {
     }
     setTreeData([...deleteNode(treeData)])
   }
+
   const handleAddNewNode = (key: any, data: any) => {
     const addNode = (listData: NodeType[]) => {
       for (let i = 0; i < listData.length; i++) {
@@ -156,6 +156,7 @@ function App() {
       <div className="App">
         <Sidebar>
           <ExtendedTree selectItem={(e) => {
+            // FIXME 
             setSelectedItem((prev: NodeType) => {
               if (prev && prev.key !== e.key) {
                 setNewNode(false)

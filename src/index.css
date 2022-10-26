@@ -1,6 +1,8 @@
-#root, .App {
+#root,
+.App {
 	height: 100%;
 }
+
 body {
 	background-color: #ecf1f5;
 }
@@ -38,7 +40,13 @@ body {
 .tree-wrap .search-result {
 	margin-top: auto;
 	box-shadow: 0 -6px 20px 0px rgb(0 0 0 / 10%);
+}
 
+.tree-wrap .search-result .search-result-item {
+	display: flex;
+	width: 100%;
+	padding: 8px 4px;
+	justify-content: space-between;
 }
 
 .form-content {
@@ -47,3 +55,25 @@ body {
 	overflow: auto;
 	padding: 12px 6px;
 }
+
+
+.users-table {
+	overflow: hidden;
+	border: 1px solid;
+	min-width: 200px;
+	min-height: 150px;
+}
+
+tr {
+	width: 100%;
+}
+
+td,
+th {
+	border: 1px solid;
+	padding: 8px;
+}
+
+/* tr:nth-child(even) {
+	background-color: rgb(217, 213, 213);
+} */
