@@ -9,7 +9,7 @@ import SearchResult from './searchResult';
 const { Search } = Input;
 
 interface Props {
-  handleContextMenuClick: (key: string) => void;
+  handleContextMenuClick: (action: string, node: NodeType) => void;
   selectItem: (node: any) => void
 }
 let dataList: NodeType[]

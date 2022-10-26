@@ -20,10 +20,20 @@ function App() {
     fetchTreeData()
   }, [])
 
-  const handleContextMenuClick = (actionKey: any) => {
-    switch (actionKey) {
-      case '':
-        break;
+  const handleContextMenuClick = (action: string, node: NodeType) => {
+    switch (action) {
+      case 'ADD_BRANCH':
+        console.log(node, 'ADD_BRANCH')
+        break
+      case 'CUT':
+        console.log(node, 'CUT')
+        break
+      case 'PASTE':
+        console.log(node, 'cut');
+        break
+      case 'DELETE':
+        console.log(node, 'DELETE')
+        break
     }
   }
 
