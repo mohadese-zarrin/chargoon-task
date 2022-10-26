@@ -9,8 +9,23 @@ import ExtendedTree from './Components/Tree'
 import { getNodes } from "./transportLayer";
 import { NodeType } from "./types";
 
+const handleGenerateNode = (parent: NodeType, data: any): NodeType => {
+  const { title, key } = data
+  let node: NodeType = {
+    title,
+    key,
+    hierarchy: [...parent.hierarchy, key],
+    children: [],
+    users: [],
+    parentKey: parent.key,
+    accesses: []
+
+  }
+  return node
+}
 function App() {
   const [selectedItem, setSelectedItem] = useState(null);
+  const [newNode, setNewNode] = useState(false)
   const [showEdit, setShowEdit] = useState(true);
   const [treeData, setTreeData] = useState([]);
   const cutedNode = useRef<NodeType>()
@@ -26,7 +41,7 @@ function App() {
   const handleContextMenuClick = (action: string, node: NodeType) => {
     switch (action) {
       case 'ADD_BRANCH':
-        console.log(node, 'ADD_BRANCH')
+        setNewNode(true)
         break
       case 'CUT':
         cutedNode.current = node
@@ -78,6 +93,22 @@ function App() {
     setTreeData(nodes)
   }
 
+  const handleAddNewNode = (key: any, data: any) => {
+    const addNode = (listData: NodeType[]) => {
+      for (let i = 0; i < listData.length; i++) {
+        if (listData[i].key === selectedItem.key) {
+          listData[i].children = [...listData[i].children, handleGenerateNode(selectedItem, data)]
+          return listData
+        }
+        if (listData[i].children) {
+          addNode(listData[i].children);
+        }
+      }
+      return listData
+    }
+    setTreeData([...addNode(treeData)])
+  }
+
   const handleUpdateNode = (key: string, data: any) => {
     console.log(key, data, 'update node');
 
@@ -107,9 +138,17 @@ function App() {
     >
       <div className="App">
         <Sidebar>
-          <ExtendedTree selectItem={setSelectedItem} handleContextMenuClick={handleContextMenuClick} />
+          <ExtendedTree selectItem={(e) => {
+            setSelectedItem((prev: NodeType) => {
+              if (prev && prev.key !== e.key) {
+                setNewNode(false)
+              }
+              return e
+            })
+          }}
+            handleContextMenuClick={handleContextMenuClick} />
         </Sidebar>
-        {showEdit && <Form item={selectedItem} updateNode={handleUpdateNode} />}
+        {selectedItem && <Form newNode={newNode} item={selectedItem} updateNode={newNode ? handleAddNewNode : handleUpdateNode} />}
       </div>
     </AppContext.Provider>
   );
