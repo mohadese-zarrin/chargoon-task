@@ -124,6 +124,8 @@ function App() {
       return listData
     }
     setTreeData([...addNode(treeData)])
+    setSelectedItem(null)
+    setNewNode(false)
   }
 
   const handleUpdateNode = (key: string, data: any) => {
@@ -155,9 +157,10 @@ function App() {
       <div className="App">
         <Sidebar>
           <ExtendedTree selectItem={(e) => {
-            // FIXME 
             setSelectedItem((prev: NodeType) => {
               if (prev && prev.key !== e.key) {
+                setNewNode(false)
+              } else if (newNode) {
                 setNewNode(false)
               }
               return e
