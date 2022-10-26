@@ -13,7 +13,7 @@ interface Props {
 function ActionBar({ actions }: Props) {
 	return (<div className='actionbar' >
 		{actions.map(action =>
-			<Button onClick={action.handler} type="primary" >{action.title}</Button>)
+			<Button key={action.title} onClick={action.handler} type="primary" >{action.title}</Button>)
 		}
 	</div>)
 }

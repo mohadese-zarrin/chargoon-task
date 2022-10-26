@@ -21,7 +21,6 @@ function Accesses({ initialValue, setAccesses }: Props) {
 
 
 	function handleOnChange(e: any) {
-		console.log(e, 'access item');
 		setAccesses(e)
 	}
 

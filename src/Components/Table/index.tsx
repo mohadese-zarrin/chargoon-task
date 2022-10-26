@@ -15,14 +15,6 @@ function Table({ }: Props) {
 	const { userListData, updateUserList } = useContext(UserListContaxt)
 
 	const onCheck = (user: UserType, status: boolean) => {
-		// console.log(userListData.map((e: UserType) => {
-		// 	if (status) {
-		// 		if (e.title === user.title) e.isDefault = status
-		// 		else e.isDefault = false
-		// 	}
-		// 	return e
-		// }));
-
 		updateUserList(userListData.map((e: UserType) => {
 			if (status) {
 				if (e.title === user.title) e.isDefault = status

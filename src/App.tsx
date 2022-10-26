@@ -93,7 +93,6 @@ function App() {
     cutedNode.current = null
   }
 
-  // TODO remove form fields value after delete
   const handleDeleteNode = (node: NodeType) => {
     const deleteNode = (listData: NodeType[]) => {
       for (let i = 0; i < listData.length; i++) {
@@ -140,7 +139,6 @@ function App() {
       return listData
     }
     let newTree = findNode(treeData)
-    console.log(newTree);
     setTreeData([...newTree])
 
   }
