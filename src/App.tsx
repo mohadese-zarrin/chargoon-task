@@ -52,6 +52,7 @@ function App() {
         break
       case 'DELETE':
         console.log(node, 'DELETE')
+        handleDeleteNode(node)
         break
     }
   }
@@ -94,6 +95,20 @@ function App() {
     setTreeData(nodes)
   }
 
+  const handleDeleteNode = (node: NodeType) => {
+    const deleteNode = (listData: NodeType[]) => {
+      for (let i = 0; i < listData.length; i++) {
+        if (listData[i].children.find(e => e.key === node.key)) {
+          listData[i].children = listData[i].children.filter(e => e.key !== node.key)
+          return listData
+        } else if (listData[i].children) {
+          deleteNode(listData[i].children);
+        }
+        return listData
+      }
+    }
+    setTreeData([...deleteNode(treeData)])
+  }
   const handleAddNewNode = (key: any, data: any) => {
     const addNode = (listData: NodeType[]) => {
       for (let i = 0; i < listData.length; i++) {
