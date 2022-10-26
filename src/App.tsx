@@ -10,7 +10,7 @@ import { getNodes } from "./transportLayer";
 import { NodeType } from "./types";
 
 const handleGenerateNode = (parent: NodeType, data: any): NodeType => {
-  const { title, key, users } = data
+  const { title, key, users, accesses } = data
   let node: NodeType = {
     title,
     key,
@@ -18,7 +18,7 @@ const handleGenerateNode = (parent: NodeType, data: any): NodeType => {
     children: [],
     users,
     parentKey: parent.key,
-    accesses: []
+    accesses
 
   }
   return node

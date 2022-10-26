@@ -20,16 +20,18 @@ interface Props {
 function Form({ item, updateNode, newNode }: Props) {
 	const [form] = FormEx.useForm();
 	const [userList, setUserList] = useState<UserType[]>()
+	const [accessesList, setAccessesList] = useState([])
 
 	const handleSave = () => {
 		const { code: key, title } = form.getFieldsValue()
-		updateNode(item.key, { key, title, users: userList })
+		updateNode(item.key, { key, title, users: userList, accesses: accessesList })
 
 	}
 	useEffect(() => {
 		if (!newNode) {
 			if (item) {
 				setUserList(item.users)
+				setAccessesList(item.accesses)
 				form.setFieldsValue({
 					title: item.title,
 					code: item.key,
@@ -40,7 +42,6 @@ function Form({ item, updateNode, newNode }: Props) {
 			form.resetFields();
 			setUserList([])
 		}
-
 	}, [item, newNode])
 
 	return (
@@ -62,7 +63,7 @@ function Form({ item, updateNode, newNode }: Props) {
 					<Tabs.TabPane tab="دسترسی ها" key="item-2">
 						<div className='form-content'>
 							<ErrorBoundry>
-								<Accesses initialValue={item?.accesses} />
+								<Accesses setAccesses={setAccessesList} initialValue={accessesList} />
 							</ErrorBoundry>
 						</div>
 					</Tabs.TabPane>

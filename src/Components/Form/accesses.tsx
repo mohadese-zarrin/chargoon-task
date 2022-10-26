@@ -3,10 +3,11 @@ import { Checkbox } from 'antd';
 import { getAccessList } from '../../transportLayer';
 
 interface Props {
-	initialValue?: any;
+	initialValue?: string[];
+	setAccesses: (e: any) => void
 }
 
-function Accesses({ }: Props) {
+function Accesses({ initialValue, setAccesses }: Props) {
 	const [options, setOptions] = useState([]);
 
 	const fetchAccessList = async () => {
@@ -19,12 +20,13 @@ function Accesses({ }: Props) {
 	}, [])
 
 
-	function handleOnChange() {
-
+	function handleOnChange(e: any) {
+		console.log(e, 'access item');
+		setAccesses(e)
 	}
 
 	return (
-		<Checkbox.Group options={options as any} onChange={handleOnChange} />
+		<Checkbox.Group value={initialValue} options={options as any} onChange={handleOnChange} />
 	);
 }
 export default Accesses
