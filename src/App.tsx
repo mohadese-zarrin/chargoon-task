@@ -28,6 +28,7 @@ function App() {
   const [newNode, setNewNode] = useState(false)
   const [treeData, setTreeData] = useState([]);
   const cutedNode = useRef<NodeType>()
+
   const fetchTreeData = async () => {
     const result = await getNodes();
     setTreeData(result);
@@ -46,11 +47,9 @@ function App() {
         cutedNode.current = node
         break
       case 'PASTE':
-        console.log(node, 'cut');
         handlePasteNode(node)
         break
       case 'DELETE':
-        console.log(node, 'DELETE')
         handleDeleteNode(node)
         break
     }
@@ -137,8 +136,8 @@ function App() {
         } else if (listData[i].children) {
           findNode(listData[i].children);
         }
-        return listData
       }
+      return listData
     }
     let newTree = findNode(treeData)
     console.log(newTree);
