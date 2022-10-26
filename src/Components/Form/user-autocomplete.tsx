@@ -1,11 +1,19 @@
 import { AutoComplete, Button } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
+import type { FormInstance } from 'antd/es/form';
 import { getUsers } from '../../transportLayer';
+import { UserType } from '../../types'
+import UserListContaxt from '../Form/userContext'
 
 
-const UserAutoComplete: React.FC = () => {
+interface Props {
+  form: FormInstance
+}
+const UserAutoComplete: React.FC<Props> = ({ form }) => {
   const orginalOptions = useRef([]);
   const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
+  const selectedUser = useRef<string>()
+  const { userListData, updateUserList } = useContext(UserListContaxt)
 
   useEffect(() => {
     getUsers().then((users) => {
@@ -17,13 +25,20 @@ const UserAutoComplete: React.FC = () => {
 
   const onSearch = (searchText: string) => {
     setOptions(
-      orginalOptions.current.filter(o => o.label.indexOf(searchText) > -1 )
+      orginalOptions.current.filter(o => o.label.indexOf(searchText) > -1)
     );
   };
 
   const onSelect = (data: string) => {
-    console.log('onSelect', data);
+    selectedUser.current = data
   };
+
+  const addUser = () => {
+    if (selectedUser.current && !userListData.find((e: UserType) => e.title === selectedUser.current)) {
+      updateUserList([...userListData, { title: selectedUser.current, isDefault: false }])
+      selectedUser.current = null
+    }
+  }
 
   return (
     <>
@@ -34,7 +49,7 @@ const UserAutoComplete: React.FC = () => {
         onSearch={onSearch}
         placeholder="جستجوی کاربر"
       />
-     <Button >افزودن</Button>
+      <Button onClick={addUser}>افزودن</Button>
     </>
   );
 };

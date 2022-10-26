@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { UserType } from '../../types'
 import { Checkbox } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import type { FormInstance } from 'antd/es/form';
+import UserListContaxt from '../Form/userContext'
+
+
 
 interface Props {
-	userList: UserType[]
-	deleteUser: (user: UserType) => void,
-	setDefaultUser: (user: UserType) => void
+	// form: FormInstance
 }
 
 
-function Table({ userList, deleteUser, setDefaultUser }: Props) {
-	const onCheck = (e: CheckboxChangeEvent, user: UserType) => {
-		setDefaultUser(user)
+function Table({ }: Props) {
+	const { userListData, updateUserList } = useContext(UserListContaxt)
+
+	const onCheck = (user: UserType, status: boolean) => {
+		updateUserList(userListData.map((e: UserType) => {
+			if (status) {
+				if (e.title === user.title) e.isDefault = status
+				else e.isDefault = false
+			}
+			return e
+		}))
 	};
+	const handleDeleteUser = (user: UserType) => {
+		updateUserList(userListData.filter((e: UserType) => e.title !== user.title))
+	}
+
 	return (
 		<table className='users-table'>
 			<tr>
@@ -21,10 +35,10 @@ function Table({ userList, deleteUser, setDefaultUser }: Props) {
 				<th>پیشفرض</th>
 				<th>نام</th>
 			</tr>
-			{userList.map((user) =>
+			{userListData.map((user: UserType) =>
 				<tr>
-					<td onClick={() => deleteUser(user)}>حذف</td>
-					<td><Checkbox defaultChecked={user.isDefault} onChange={(e) => onCheck(e, user)} /></td>
+					<td onClick={() => handleDeleteUser(user)}>حذف</td>
+					<td><Checkbox defaultChecked={user.isDefault} onChange={(status) => onCheck(user, status.target.checked)} /></td>
 					<td>{user.title}</td>
 				</tr>
 			)}

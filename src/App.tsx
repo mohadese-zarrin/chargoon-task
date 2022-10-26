@@ -10,13 +10,13 @@ import { getNodes } from "./transportLayer";
 import { NodeType } from "./types";
 
 const handleGenerateNode = (parent: NodeType, data: any): NodeType => {
-  const { title, key } = data
+  const { title, key, users } = data
   let node: NodeType = {
     title,
     key,
     hierarchy: [...parent.hierarchy, key],
     children: [],
-    users: [],
+    users,
     parentKey: parent.key,
     accesses: []
 
@@ -94,6 +94,7 @@ function App() {
     cutedNode.current = null
   }
 
+  // TODO remove form fields value after delete
   const handleDeleteNode = (node: NodeType) => {
     const deleteNode = (listData: NodeType[]) => {
       for (let i = 0; i < listData.length; i++) {
@@ -126,12 +127,10 @@ function App() {
   }
 
   const handleUpdateNode = (key: string, data: any) => {
-    console.log(key, data, 'update node');
-
     const findNode = (listData: NodeType[]) => {
       for (let i = 0; i < listData.length; i++) {
         if (listData[i].key === key) {
-          listData[i] = data
+          listData[i] = { ...selectedItem, ...data }
           return listData
         } else if (listData[i].children) {
           findNode(listData[i].children);

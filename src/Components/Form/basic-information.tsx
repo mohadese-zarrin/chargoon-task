@@ -19,7 +19,7 @@ function BasicInformation({ initialValue, form }: Props) {
 				<Input />
 			</Form.Item>
 			<Form.Item name="users" label="کاربران" labelCol={{ span: 2 }}>
-				<UserAutoComplete />
+				<UserAutoComplete form={form} />
 			</Form.Item>
 		</Form>
 	);
