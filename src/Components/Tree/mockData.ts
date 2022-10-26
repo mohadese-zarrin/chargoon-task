@@ -58,7 +58,7 @@ export function createTreeMockData(): NodeType[] {
 			],
 			accesses: [],
 			parentKey: null,
-			hierarchy: []
+			hierarchy: ['1']
 		}
 	]
 }
